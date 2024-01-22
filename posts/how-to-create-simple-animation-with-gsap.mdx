@@ -1,0 +1,107 @@
+---
+title: How to create simple animation with GSAP
+date: 'January 2, 2024'
+imageSrc: '/how-to-create-simple-animation-with-gsap/gsap.avif'
+author: DANIEL GOLA
+avatarSrc: '/authors/daniel-gola.avif'
+estimatedReadTime: 10
+slug: how-to-create-simple-animation-with-gsap
+tag: technology
+---
+
+Hello there!
+
+I’m glad to be here for the first time!
+
+Today, I want to show you how gsap library works and what it is.
+
+To say what gsap actually is I won’t use any definitions from documentation—I’ll describe it on my own in one sentence:
+
+#### Gsap is a library that helps developers to animate various elements in their projects; from custom/dedicated components to images, texts or even entire containers.
+
+You can get more info by clicking this [LINK](https://greensock.com/docs/)
+
+### Animating an svg file - where to begin
+
+In this article, I’ll show you how to animate an svg file. To make it right, let’s use figma developer tool to group layers and vectors of our svg.
+
+First of all, let’s take a file from [Undraw](https://undraw.co/illustrations) and import it to [Figma](https://figma.com/) project. Next, create groups of vectors to make it clearer:
+
+![](/how-to-create-simple-animation-with-gsap/how-to-create-simple-animation-with-gsap-tip1.avif)
+
+Feel free to work more with your file :)
+
+After all changes, export your project to svg format including all id’s. Once it’s done we can start coding!
+
+### Coding
+
+I’ll use a template project from ```npx create-react-app``` and make quick changes.
+
+- Delete css styles except .App
+- Delete all tags in return function except the highest div
+
+To start working with gsap we need to install a javascript package using: npm install --save gsap.
+
+Now it’s time to import our svg file by typing:
+
+```
+import { ReactComponent as SceneSvg } from ‘yourPath/yourFile.svg';
+```
+
+and don’t forget about gsap!
+
+```
+import gsap from ‘gsap’;
+```
+
+To catch our svg I’ll use useRef hook and useEffect hook to make some animations. In useEffect hook, let’s find our id’s of the vectors.
+
+```
+useEffect(() => {
+  const [svgElements] = wrapperRef.current.children;
+
+  const sky = svgElements.getElementById('sky');
+  const stones = svgElements.getElementById('stones');
+  const ground = svgElements.getElementById('ground');
+  const flowers = svgElements.getElementById('flowers');
+  const reactLogo = svgElements.getElementById('reactlogo');
+  const girl = svgElements.getElementById('girl');
+});
+```
+
+Next, set them to be invisible by adding gsap.set() function and autoAplha: 0 property. Once it’s set, it’s good to have a timeline where animations will be crated and modulate.
+
+```
+gsap.set([sky, stones, ground, flowers, reactLogo, girl], { autoAlpha: 0 });
+const tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } });
+```
+
+You can read more about ease options [HERE](https://greensock.com/docs/v3/Eases)
+
+Now, by using our timeline we can animate our vectors of svg. I’ll use ‘fromTo’ function to set the beginning and ending values.
+
+```
+tl.fromTo(sky, { x: '+=350' }, { duration: 0.5, x: '-=350', autoAlpha: 1 })
+  .fromTo(ground, { y: '+100', scale: 0 }, { duration: 0.5, y: '0', scale: 1, autoAlpha: 1 })
+  .fromTo(stones, { scale: 0 }, { duration: 1, scale: 1, autoAlpha: 1 })
+  .fromTo(flowers, { y: '+=50' }, { y: '-=50', duration: 1, scale: 1, autoAlpha: 1 })
+  .fromTo(reactLogo, { scale: 0 }, { duration: 0.5, scale: 1, autoAlpha: 1 })
+  .fromTo(girl, { y: '-=150' }, { duration: 1, y: '+=150', autoAlpha: 1 });
+});
+```
+
+It’s nothing more left but just render our image!
+
+```
+return (
+  <div ref={wrapperRef} className="App">
+    <SceneSvg />
+  </div>
+);
+```
+
+![](/how-to-create-simple-animation-with-gsap/how-to-create-simple-animation-with-gsap-tip2.avif)
+
+Pretty simple, right? In the following part of my gasp post, I’ll show you how to animate components during scrolling page :)
+
+Of course you can find source code on my github [repo](https://github.com/setamyDG/react-with-gsap-part1)

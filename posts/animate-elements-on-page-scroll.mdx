@@ -1,0 +1,125 @@
+---
+title: Animate elements on page scroll
+date: 'August 4, 2021'
+imageSrc: '/animate-elements-on-page-scroll/rocket.avif'
+tags: ['functions', 'javascript']
+author: DANIEL GOLA
+avatarSrc: '/authors/daniel-gola.avif'
+estimatedReadTime: 5
+slug: animate-elements-on-page-scroll
+tag: technology
+---
+
+Hello there!
+
+Finally I can share with you another post about react & gsap. As promised in the previous part - here, I’ll show you how to create animations when scrolling our page.
+
+Let’s get started.
+
+First, create new project by typing: 'npx create-react-app project-name'
+
+After all dependencies are installed and created, we can download gsap library. To do that, we need to open terminal with project location and type: 'npm install gsap'
+
+At the 1st step let’s clear the code from default things.
+
+- In App.js delete all html elements except highest div
+- Delete unused imports
+- In App.css delete all classes except ‘.App’
+
+```
+import React from 'react';
+import './App.css';
+
+const App = () => {
+  return (
+    <div className="App">
+    </div>
+  );
+}
+
+export default App;
+```
+
+Now, we can use the ‘useEffect’ and ‘useRef’ hooks to make initial refs for our components. And of course, the names of variables or styling is up to you :).
+
+```
+Import React, { useRef,  useEffect } from ‘react’;
+…
+const App = () => {
+  const titleRef = useRef(null);
+
+  useEffect(() => {
+	// here will be our animation
+  }, []);
+
+  return (
+    <div className="App">
+      <p ref={titleRef}> You can animate everything!</p>
+    </div>
+  );
+}
+```
+
+After that, lets change our App.css to prepare some better styling and to make the scroll appear:
+
+```
+.App {
+  text-align: center;
+  background: #282c34;
+  height: 250vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: 24px;
+}
+```
+
+Next lets create a separate file animations.js to handle our animations. At the top of the file lets import a few things and apply them:
+
+```
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const fromBottomToTop = ({ target, stagger, start = '0px, 50%', duration = 1, scaleX}) => {
+  gsap.from(target, {
+    scrollTrigger: {
+      trigger: target,
+      start
+    },
+    y: '+=50',
+    autoAlpha: 0,
+    scaleX,
+    duration
+  });
+};
+
+export default fromBottomToTop
+```
+
+Now, we can go back to App.js file to import our function and use it in the ‘useEffect’ hook:
+
+```
+import fromBottomToTop from ‘./animations’;
+…
+useEffect(() => {
+    fromBottomToTop({target: titleRef.current, scaleX: 0.5});
+  }, []);
+```
+
+And here we go! Just launch your app and see the results:
+
+![](/animate-elements-on-page-scroll/animate-elements-on-page-scroll-tip1.avif)
+
+I encourage you to add more components and various animations. The final version is on my github repository.
+
+https://github.com/setamyDG/react-with-gsap-part2
+
+
+If you’re interested about the rest of gsap scroll properties please visit this [LINK](https://gsap.com/docs/v3/Plugins/ScrollTrigger/)
+
+Check it out and learn more!

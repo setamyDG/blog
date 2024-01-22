@@ -1,0 +1,142 @@
+---
+title: Navigation with an animated indicator
+date: 'January 4, 2024'
+imageSrc: '/navigation-with-an-animated-indicator/laptop.avif'
+author: DANIEL GOLA
+avatarSrc: '/authors/daniel-gola.avif'
+estimatedReadTime: 7
+slug: navigation-with-an-animated-indicator
+tag: technology
+---
+Hello !
+
+If you also pay attention to details and like UI improvements, this article is for you! This time, I’m happy to show you how to create a simple animated indicator in a navigation bar. However, such an indicator will configure its width and position automatically depending on our links.
+
+You’ve probably noticed that I’m using styled-components in this project, but it doesn’t matter - feel free to use whatever styling engine you want!
+
+First, let’s create our project by typing: ’npx create-react-app nav-indicator’ and installing styled-components package.
+
+npm install styled-components
+
+After that, we can get to the code.
+
+Start with creating the components - div, nav, ul, li - by using styled-components:
+
+```
+const Container = styled.div`
+  	height: 100vh;
+ 	display: flex;
+ 	justify-content: center;
+ 	align-items: center;
+	background: #212121;
+	flex-flow: column;
+ 	color: white;
+`;
+
+const Navigation = styled.nav`
+  	background: #808080;
+  	position: relative;
+`;
+
+const StyledUl = styled.ul`
+ 	 list-style: none;
+ 	 padding: 0;
+ 	 text-align: center;
+ 	 font-weight: bold;
+`;
+
+const Link = styled.li`
+ 	position: relative;
+  	margin: 20px;
+  	text-transform: uppercase;
+  	letter-spacing: 1px;
+   	display:inline;
+
+  	:hover {
+   	 cursor: pointer;
+   	 opacity: 0.5;
+ 	}
+`;
+```
+
+If you’re not familiar with this kind of styling, you can read [Artur's article on the styled-components basics](https://codetain.com/blog/how-to-style-with-styled-components). Also, you can find more in the [official styled-components documentation](https://styled-components.com/).
+
+Now, we need to render our components:
+
+```
+return (
+    <Container>
+      <Navigation ref={navElement}>
+        <StyledUl>
+          <Link>Home</Link>
+          <Link>About</Link>
+          <Link>Contact</Link>
+          <Link>Log out</Link>
+        </StyledUl>
+      </Navigation>
+    </Container>
+  );
+```
+
+And your result should look like this:
+
+![](/navigation-with-an-animated-indicator/navigation-with-an-animated-indicator-tip1.avif)
+
+To place the indicator under an active link I’m going to use useState, useRef hooks, and getBoundingClientRect() function.
+
+```
+const [indicatorPosition, setIndicatorPosition] = useState();
+const [indicatorWidth, setIndicatorWidth] = useState();
+const navElement = useRef();
+```
+
+Next, we can write a function where an indicator will show up once you click on a link. Firstly, let’s use getBoundingClientRect() function to get the width and position relative to parent’s. After that, we need to calculate them.
+
+```
+const handleClick = (event) => {
+  const linkLeft = event.target.getBoundingClientRect().left;
+  const navLeft = navElement.current.getBoundingClientRect().left;
+  const linkWidth = event.target.getBoundingClientRect().width;
+  const singleLinkWidth = linkWidth;
+  const singleLinkLeft = linkLeft - navLeft;
+
+  setIndicatorPosition(singleLinkLeft);
+  setIndicatorWidth(singleLinkWidth);
+};
+```
+
+Now, we can add our Indicator component...
+
+```
+const Indicator = styled.div`
+  position: absolute;
+  bottom: 5px;
+  width: ${({ width }) => `${width}px`};
+  left: ${({ left }) => `${left}px`};
+  height: 3px;
+  background: white;
+  transition: all .5s ease-in-out;
+`;
+```
+
+...and render it into the last link in return method:
+
+```
+<Indicator left={indicatorPosition} width={indicatorWidth} />
+```
+
+After that, nothing left than add our handleClick method to onClick property in the Link Component:
+
+```
+<Link onClick={handleClick}>HOME</Link>
+```
+
+And here we are with our final result!
+
+![](/navigation-with-an-animated-indicator/navigation-with-an-animated-indicator-tip2.avif)
+
+You can also add active class or work more with the styles... Everything is up to you :)
+
+I'm Hope to show you something more in next articles.
+
+Of course you can see this project on my GitHub repo: https://github.com/setamyDG/navigation-indicator
