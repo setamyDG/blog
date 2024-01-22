@@ -41,7 +41,7 @@ const BlogPage = async ({ params }: Props) => {
           </div>
         </div>
       </div>
-      <article className='prose my-4 bg-white px-8 shadow-xl'>
+      <article className='prose my-4  w-full bg-white px-8 shadow-xl'>
         <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
       </article>
     </section>
