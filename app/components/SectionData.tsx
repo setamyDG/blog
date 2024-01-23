@@ -5,9 +5,10 @@ type Props = {
   data: Post[];
   title: string;
   subtitle: string;
+  className?: string;
 };
 
-export const SectionData = ({ data, title, subtitle }: Props) => {
+export const SectionData = ({ data, title, subtitle, className }: Props) => {
   return (
     <section className='flex flex-col items-center justify-center px-8 sm:px-28'>
       <h1 className='my-12 text-2xl'>
@@ -15,7 +16,7 @@ export const SectionData = ({ data, title, subtitle }: Props) => {
         {subtitle}
       </h1>
 
-      <div className='grid grid-cols-1 gap-8 py-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
+      <div className={className}>
         {data.map((post) => (
           <BlogCard key={post.slug} post={post} />
         ))}

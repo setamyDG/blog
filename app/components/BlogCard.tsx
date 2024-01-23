@@ -21,7 +21,7 @@ const BlogCard = ({ post }: PropsPost) => (
         />
       </div>
       <div className='px-4 py-2'>
-        <p className={`mt-2 text-xs font-bold uppercase ${colorTag[post.tag as keyof typeof colorTag]} `}>{post.tag}</p>
+        <p className={`mt-2 text-xs font-bold uppercase ${colorTag[post.tag]}`}>{post.tag}</p>
         <p className='mt-1 cursor-pointer text-xs font-bold transition-colors group-hover:text-blue-500 sm:text-lg'>
           {post.title}
         </p>

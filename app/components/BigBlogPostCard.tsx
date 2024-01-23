@@ -24,7 +24,7 @@ const BigBlogPostCard = ({ post }: PropsPost) => (
       >
         {post.title}
       </Link>
-      <p className={`mt-6 text-sm font-bold uppercase ${colorTag[post.tag as keyof typeof colorTag]}`}>{post.tag}</p>
+      <p className={`mt-6 text-sm font-bold uppercase ${colorTag[post.tag]}`}>{post.tag}</p>
       <BlogAuthor post={post} />
     </div>
   </div>

@@ -17,8 +17,18 @@ export default function Home() {
   return (
     <section className='flex w-full flex-col'>
       <BigBlogPostCard post={newestPost} />
-      <SectionData data={lastThreePosts} title='Featured' subtitle='Posts' />
-      <SectionData data={restPosts} title='My' subtitle='Latest' />
+      <SectionData
+        data={lastThreePosts}
+        title='Featured'
+        subtitle='Posts'
+        className='grid grid-cols-1 gap-8 py-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'
+      />
+      <SectionData
+        data={restPosts}
+        title='My'
+        subtitle='Latest'
+        className='grid grid-cols-1 gap-8 py-4 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4'
+      />
     </section>
   );
 }
