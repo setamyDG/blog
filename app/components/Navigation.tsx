@@ -6,6 +6,10 @@ import { usePathname } from 'next/navigation';
 const routes = {
   home: '/',
   contact: '/contact',
+  ssg: '/contact/ssg',
+  ssr: '/contact/ssr',
+  isr: '/contact/isr',
+  streaming: '/contact/streaming',
 };
 
 export default function Navigation() {
@@ -31,6 +35,18 @@ export default function Navigation() {
         </div>
         <Link href={routes.contact} className={getLinkClassName(routes.contact)}>
           Contact
+        </Link>
+        <Link href={routes.ssg} className={getLinkClassName(routes.ssg)}>
+          SSG
+        </Link>
+        <Link href={routes.ssr} className={getLinkClassName(routes.ssr)}>
+          SSR
+        </Link>
+        <Link href={routes.isr} className={getLinkClassName(routes.isr)}>
+          ISR
+        </Link>
+        <Link href={routes.streaming} className={getLinkClassName(routes.streaming)}>
+          Streaming
         </Link>
       </nav>
     </header>
